@@ -100,6 +100,11 @@ public class EmployeeController {
     }
     @PostMapping
     public ResponseEntity<?>create(@RequestBody EmployeeBatchRequest request){
+        if (request.getEmployees() == null || request.getEmployees().isEmpty()) {
+            return ResponseEntity.badRequest()
+                    .body("Employee list is empty or contains invalid data");
+        }
+
         List<String> failedNames = new ArrayList<>();
         List<Employee> inserted = new ArrayList<>();
         for (CreateRequest req : request.getEmployees()) {
