@@ -117,7 +117,7 @@ public class EmployeeController {
             }
         }
          if (failedNames.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(inserted);
+            return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toResponseList(inserted));
         }
 
         String names = String.join(", ", failedNames);
