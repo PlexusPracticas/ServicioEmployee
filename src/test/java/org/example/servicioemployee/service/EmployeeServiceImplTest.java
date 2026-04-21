@@ -40,7 +40,7 @@ class EmployeeServiceImplTest {
 
 
     @Test
-    void findById_ok() {
+    void buscarEmpleado_porId_ok() {
         Employee emp = new Employee();
         emp.setId(1);
 
@@ -50,7 +50,7 @@ class EmployeeServiceImplTest {
         assertEquals(1, result.getId());
     }
     @Test
-    void findById_notFound_throwsException() {
+    void buscarEmpleado_noExiste_error() {
         when(repository.findById(99)).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class, () -> service.findById(99));
@@ -58,7 +58,7 @@ class EmployeeServiceImplTest {
 
 
     @Test
-    void save_ok() {
+    void crearEmpleado_ok() {
         EmployeeDTO.CreateRequest req = new EmployeeDTO.CreateRequest();
         req.setName("Tony");
         req.setSurname("Stark");
@@ -73,7 +73,7 @@ class EmployeeServiceImplTest {
 
 
     @Test
-    void saveAll_ok() {
+    void crearVariosEmpleados_ok() {
         EmployeeDTO.CreateRequest r1 = new EmployeeDTO.CreateRequest();
         r1.setName("Tony");
         EmployeeDTO.CreateRequest r2 = new EmployeeDTO.CreateRequest();
@@ -86,7 +86,7 @@ class EmployeeServiceImplTest {
 
 
     @Test
-    void updateEmployee_ok() {
+    void actualizarEmpleado_ok() {
         Employee emp = new Employee();
         emp.setId(1);
         UpdateRequest req = new UpdateRequest();
@@ -98,7 +98,7 @@ class EmployeeServiceImplTest {
         assertEquals("699999999", result.getPhoneNumber());
     }
     @Test
-    void updateEmployee_notFound_throwsException() {
+    void actualizarEmpleado_noExiste_error() {
         UpdateRequest req = new UpdateRequest();
         req.setId(99);
         when(repository.findById(99)).thenReturn(Optional.empty());
@@ -106,7 +106,7 @@ class EmployeeServiceImplTest {
     }
 
     @Test
-    void search_byNameAndSurname() {
+    void buscarPorNombreYApellido() {
         Pageable pageable = PageRequest.of(0, 10);
         when(repository.findByNameContainingIgnoreCaseAndSurnameContainingIgnoreCase("Tony", "Stark", pageable))
                 .thenReturn(new PageImpl<>(List.of(new Employee())));
@@ -114,7 +114,7 @@ class EmployeeServiceImplTest {
         assertEquals(1, result.getTotalElements());
     }
     @Test
-    void search_byName() {
+    void buscarPorNombre() {
         Pageable pageable = PageRequest.of(0, 10);
         when(repository.findByNameContainingIgnoreCase("Tony", pageable))
                 .thenReturn(new PageImpl<>(List.of(new Employee())));
@@ -122,14 +122,14 @@ class EmployeeServiceImplTest {
         assertEquals(1, result.getTotalElements());
     }
     @Test
-    void search_bySurname() {
+    void buscarPorApellido() {
         Pageable pageable = PageRequest.of(0, 10);
         when(repository.findBySurnameContainingIgnoreCase("Stark", pageable)).thenReturn(new PageImpl<>(List.of(new Employee())));
         Page<Employee> result =service.search(null, "Stark", pageable);
         assertEquals(1, result.getTotalElements());
     }
     @Test
-    void search_noFilters_returnsAll() {
+    void buscarSinFiltros() {
         Pageable pageable = PageRequest.of(0, 10);
         when(repository.findAll(pageable))
                 .thenReturn(new PageImpl<>(List.of(new Employee())));
@@ -138,7 +138,7 @@ class EmployeeServiceImplTest {
     }
 
     @Test
-    void deleteById_ok() {
+    void eliminarEmpleados_ok() {
         Employee e1 = new Employee();
         e1.setId(1);
         Employee e2 = new Employee();

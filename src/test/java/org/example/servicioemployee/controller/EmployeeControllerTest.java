@@ -42,7 +42,7 @@ class EmployeeControllerTest {
     private EmployeeMapper mapper;
 
     @Test
-    void listAll_ok() throws Exception {
+    void listarEmpleados_ok() throws Exception {
         Mockito.when(service.getAll(Mockito.any()))
                 .thenReturn(new org.springframework.data.domain.PageImpl<>(List.of()));
 
@@ -105,7 +105,7 @@ class EmployeeControllerTest {
 
 
     @Test
-    void createEmployees_allOk_returns201() throws Exception {
+    void crearEmpleados_okreturns201() throws Exception {
 
         EmployeeDTO.CreateRequest req = new EmployeeDTO.CreateRequest();
         req.setName("Tony");
@@ -124,7 +124,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void createEmployees_partial_returns206() throws Exception {
+    void crearEmpleados_parcialreturns206() throws Exception {
 
         EmployeeDTO.CreateRequest ok = new EmployeeDTO.CreateRequest();
         ok.setName("Tony");
@@ -149,7 +149,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void updateEmployees_allOk_returns201() throws Exception {
+    void actualizarEmpleados_ok_returns201() throws Exception {
 
         UpdateRequest r1 = new UpdateRequest();
         r1.setId(1);
@@ -173,7 +173,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void updateEmployees_partialFailure_returns206() throws Exception {
+    void actualizarEmpleados_parcial_returns206() throws Exception {
 
         UpdateRequest ok = new UpdateRequest();
         ok.setId(1);
@@ -211,7 +211,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void deleteEmployees_invalidIds_returns400() throws Exception {
+    void eliminarEmpleados_idsInvalidos_returns400() throws Exception {
         mockMvc.perform(delete("/employees/id/a,b,c"))
                 .andExpect(status().isBadRequest());
     }
