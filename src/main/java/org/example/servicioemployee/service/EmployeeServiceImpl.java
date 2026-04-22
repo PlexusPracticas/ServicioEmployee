@@ -59,7 +59,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee updateEmployee(UpdateRequest request) {
         Employee emp = repository.findById(request.getId()).orElseThrow(() -> new RuntimeException("Empleado no encontrado: " + request.getId()));
-        // SOLO estos 3 campos están permitidos
+
+
+        if (request.getName() != null) {
+            emp.setName(request.getName());
+        }
+        if (request.getSurname() != null) {
+            emp.setSurname(request.getSurname());
+        }
+        if (request.getMailPlexus() != null) {
+            emp.setMailPlexus(request.getMailPlexus());
+        }
         if (request.getClientId() != null)
             emp.setClientId(request.getClientId());
         if (request.getMailClient() != null)
@@ -72,19 +82,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Page<Employee> search(String name, String surname, Pageable pageable) {
-        //si el nombre no es nulo ni esta en blanco y a la vez el surname no es nulo ni en blanco hace la busqueda por nombre y apellido
         if (name != null && !name.isBlank() && surname != null && !surname.isBlank()) {
             return repository.findByNameContainingIgnoreCaseAndSurnameContainingIgnoreCase(name, surname, pageable);
         }
-        //si el nombre no es nulo ni en blanco hace la busqueda por nombre
         if (name != null && !name.isBlank()) {
             return repository.findByNameContainingIgnoreCase(name, pageable);
         }
-        //si el surname no es nulo ni esta en blanco hace la busqueda por surname
         if (surname != null && !surname.isBlank()) {
             return repository.findBySurnameContainingIgnoreCase(surname, pageable);
         }
-        // Si no se da ningún filtro → lista completa (controlado por el controller)
         return repository.findAll(pageable);
     }
 

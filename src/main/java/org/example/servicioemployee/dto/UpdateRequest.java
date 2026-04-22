@@ -1,5 +1,6 @@
 package org.example.servicioemployee.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class UpdateRequest {
     @NotNull
+    @JsonProperty("employeeId")
     private Integer id;
     @Size(max=50,message = "ClientId – Debe ser un alfanumerico entre 0 y 50 caracteres")
     private String clientId;
@@ -15,4 +17,10 @@ public class UpdateRequest {
     private String mailClient;
     @Pattern(regexp = "^[0-9]{9}$", message = "phoneNumber - El numero de telefono solo puede contener caracteres numericos. Debe tener 9 caracteres de longitud")
     private String phoneNumber;
+
+
+    private String name;
+    private String surname;
+    private String mailPlexus;
+
 }
